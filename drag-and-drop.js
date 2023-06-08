@@ -232,6 +232,9 @@ const load = ({
   selector,
   draggingFlag = "dragging",
   cloneFlag = "temp-clone",
+  dragStart = () => {},
+  onDrag = () => {},
+  drop = () => {}
 }) => {
   dragAndDrop.draggingFlag = draggingFlag;
   dragAndDrop.cloneFlag = cloneFlag;
