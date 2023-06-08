@@ -15,9 +15,11 @@ const drop = (x, y) => {
       if (x >= box.x && x <= box.x + box.width) {
         if (y <= centerY && y >= box.y) {
           relocateElement(e, "beforebegin");
+          dragAndDrop.drop(dragAndDrop.element, e, -1);
         }
         if (y >= centerY && y <= finalY) {
           relocateElement(e, "afterend");
+          dragAndDrop.drop(dragAndDrop.element, e, 1);
         }
       }
     }
@@ -176,7 +178,6 @@ const dragOver = (el) => {
   removeClone();
 
   dragAndDrop.element.classList.remove(dragAndDrop.draggingFlag);
-  dragAndDrop.drop(el);
 };
 
 // ----------------------------------------------------------
@@ -234,7 +235,7 @@ const load = ({
   cloneFlag = "temp-clone",
   beginDrag = () => {},
   onDrag = () => {},
-  drop = () => {}
+  drop = () => {},
 }) => {
   dragAndDrop.draggingFlag = draggingFlag;
   dragAndDrop.cloneFlag = cloneFlag;
@@ -243,7 +244,7 @@ const load = ({
   dragAndDrop.drop = drop;
 
   loadElements(selector);
-  
+
   window.onmouseup = () => {
     if (dragAndDrop.element != null) dragOver(dragAndDrop.element);
   };
@@ -251,7 +252,7 @@ const load = ({
   window.ontouchend = () => {
     if (dragAndDrop.element != null) dragOver(dragAndDrop.element);
   };
-  
+
   window.onblur = () => {
     if (dragAndDrop.element != null) dragOver(dragAndDrop.element);
   };
