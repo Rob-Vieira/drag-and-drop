@@ -138,6 +138,7 @@ const mouseMove = (e) => {
   moveElement(e.clientX, e.clientY);
   drop(e.clientX, e.clientY);
   moveScroll(e.clientY);
+  dragAndDrop.onDrag(dragAndDrop.element);
 };
 
 const touchMove = (e) => {
@@ -146,6 +147,7 @@ const touchMove = (e) => {
   moveElement(touch.clientX, touch.clientY);
   drop(touch.clientX, touch.clientY);
   moveScroll(touch.clientY);
+  dragAndDrop.onDrag(dragAndDrop.element);
 };
 
 const dragStart = (el, ev, touch) => {
@@ -162,6 +164,7 @@ const dragStart = (el, ev, touch) => {
   }
 
   createClone(dragAndDrop.element);
+  dragAndDrop.dragStart(el);
 };
 
 const dragOver = (el) => {
@@ -173,6 +176,7 @@ const dragOver = (el) => {
   removeClone();
 
   dragAndDrop.element.classList.remove(dragAndDrop.draggingFlag);
+  dragAndDrop.drop(el);
 };
 
 // ----------------------------------------------------------
@@ -180,6 +184,7 @@ const dragOver = (el) => {
 // ----------------------------------------------------------
 
 const loadElements = (selector) => {
+  dragAndDrop.elements = [];
   let elements = document.querySelectorAll("." + selector);
   elements.forEach((e) => {
     addElement(e);
@@ -218,6 +223,9 @@ const dragAndDrop = {
   scrollOn: false,
   draggingFlag: "dragging",
   cloneFlag: "temp-clone",
+  dragStart: () => {},
+  onDrag: () => {},
+  drop: () => {},
 };
 
 const load = ({
