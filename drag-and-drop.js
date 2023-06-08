@@ -164,7 +164,7 @@ const dragStart = (el, ev, touch) => {
   }
 
   createClone(dragAndDrop.element);
-  dragAndDrop.dragStart(el);
+  dragAndDrop.beginDrag(el);
 };
 
 const dragOver = (el) => {
@@ -223,7 +223,7 @@ const dragAndDrop = {
   scrollOn: false,
   draggingFlag: "dragging",
   cloneFlag: "temp-clone",
-  dragStart: () => {},
+  beginDrag: () => {},
   onDrag: () => {},
   drop: () => {},
 };
@@ -232,19 +232,26 @@ const load = ({
   selector,
   draggingFlag = "dragging",
   cloneFlag = "temp-clone",
-  dragStart = () => {},
+  beginDrag = () => {},
   onDrag = () => {},
   drop = () => {}
 }) => {
   dragAndDrop.draggingFlag = draggingFlag;
   dragAndDrop.cloneFlag = cloneFlag;
+  dragAndDrop.beginDrag = beginDrag;
+  dragAndDrop.onDrag = onDrag;
+  dragAndDrop.drop = drop;
+
   loadElements(selector);
+  
   window.onmouseup = () => {
     if (dragAndDrop.element != null) dragOver(dragAndDrop.element);
   };
+
   window.ontouchend = () => {
     if (dragAndDrop.element != null) dragOver(dragAndDrop.element);
   };
+  
   window.onblur = () => {
     if (dragAndDrop.element != null) dragOver(dragAndDrop.element);
   };
